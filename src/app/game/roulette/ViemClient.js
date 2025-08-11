@@ -105,6 +105,26 @@ const citreaTestnet = {
   testnet: true,
 };
 
+// Define Basecamp Testnet chain
+const basecampTestnet = {
+  id: 123420001114,
+  name: 'Basecamp Testnet',
+  network: 'basecamp-testnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Basecamp',
+    symbol: 'CAMP',
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc-campnetwork.xyz'] },
+    public: { http: ['https://rpc-campnetwork.xyz'] },
+  },
+  blockExplorers: {
+    default: { name: 'Basecamp Testnet Explorer', url: 'https://basecamp.cloud.blockscout.com/' },
+  },
+  testnet: true,
+};
+
 // Configure transport with improved settings
 const configureTransport = (url) => http(url, {
   batch: { batchSize: 1 },  // Disable batching for more reliable connections
@@ -154,6 +174,11 @@ export const publicCitreaTestnetClient = createPublicClient({
   transport: configureTransport('https://rpc.testnet.citrea.xyz'),
 });
 
+export const publicBasecampTestnetClient = createPublicClient({
+  chain: basecampTestnet,
+  transport: configureTransport('https://rpc-campnetwork.xyz'),
+});
+
 // Get contract configuration for current chain
 export const getPublicClient = (chainId) => {
 
@@ -167,6 +192,8 @@ export const getPublicClient = (chainId) => {
       return publicBinanceTestnetClient;
     } else if (chainId === CHAIN_IDS.CITREA_TESTNET) {
       return publicCitreaTestnetClient;
+    } else if (chainId === CHAIN_IDS.BASECAMP_TESTNET) {
+      return publicBasecampTestnetClient;
     }
     return null;
 };
@@ -194,22 +221,23 @@ export const getWalletClient = async () => {
     // Create wallet client if not already created
     if (!walletClient) {
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      // Prefer Mantle Sepolia (0x138b), fallback to Pharos Devnet, then Binance Testnet, then Ethereum Sepolia, then Citrea Testnet
+      // Prefer Mantle Sepolia (0x138b), fallback to Pharos Devnet, then Binance Testnet, then Ethereum Sepolia, then Citrea Testnet, then Basecamp Testnet
       let chain;
       if (chainId === '0x138b') {
         chain = mantleSepolia;
       } else if (chainId === '0xc352') {
         chain = pharosDevnet;
-      } else if (chainId === '0x61') { // 0x61 is chainId for Binance Smart Chain Testnet
+      } else if (chainId === '0x61') {
         chain = binanceTestnet;
-      } else if (chainId === '0xaa36a7') { // 0xaa36a7 is chainId for Ethereum Sepolia
+      } else if (chainId === '0xaa36a7') {
         chain = ethereumSepolia;
-      } else if (chainId === '0x13fb') { // 0x13fb is chainId for Citrea Testnet
+      } else if (chainId === '0x13fb') {
         chain = citreaTestnet;
+      } else if (chainId === '0x1cbc67c35a') {
+        chain = basecampTestnet;
       } else {
-        chain = mantleSepolia; // Default fallback
+        chain = mantleSepolia;
       }
-      
       walletClient = createWalletClient({
         chain,
         transport: custom(window.ethereum),
@@ -240,6 +268,8 @@ export const createCustomWalletClient = (account, providedChainId) => {
     chain = ethereumSepolia;
   } else if (providedChainId === '0x13fb') {
     chain = citreaTestnet;
+  } else if (providedChainId === '0x1cbc67c35a') {
+    chain = basecampTestnet;
   } else {
     chain = pharosDevnet; // Default to pharosDevnet
   }
@@ -258,8 +288,7 @@ export const checkNetwork = async () => {
   
   try {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    // Support Mantle Sepolia (0x138b), Local Hardhat (0x7a69), Binance Testnet (0x61), Ethereum Sepolia (0xaa36a7), and Citrea Testnet (0x13fb)
-    if (chainId !== '0x138b' && chainId !== '0x7a69' && chainId !== '0x61' && chainId !== '0xaa36a7' && chainId !== '0x13fb') {
+    if (chainId !== '0x138b' && chainId !== '0x7a69' && chainId !== '0x61' && chainId !== '0xaa36a7' && chainId !== '0x13fb' && chainId !== '0x1cbc67c35a') {
       try {
         // Try switching to Mantle Sepolia first
         await window.ethereum.request({
@@ -333,21 +362,21 @@ export const checkNetwork = async () => {
               }],
             });
             
-            // Comment out Pharos Devnet network addition
-            // await window.ethereum.request({
-            //   method: 'wallet_addEthereumChain',
-            //   params: [{
-            //     chainId: '0xc352',
-            //     chainName: 'Pharos Devnet',
-            //     nativeCurrency: {
-            //       name: 'Pharos',
-            //       symbol: 'PHR',
-            //       decimals: 18
-            //     },
-            //     rpcUrls: ['https://devnet.dplabs-internal.com'],
-            //     blockExplorerUrls: ['https://pharosscan.xyz']
-            //   }],
-            // });
+            // Add Basecamp Testnet network
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x1cbc67c35a',
+                chainName: 'Basecamp Testnet',
+                nativeCurrency: {
+                  name: 'Basecamp',
+                  symbol: 'CAMP',
+                  decimals: 18
+                },
+                rpcUrls: ['https://rpc-campnetwork.xyz'],
+                blockExplorerUrls: ['https://basecamp.cloud.blockscout.com/']
+              }],
+            });
           } catch (addError) {
             console.error('Error adding networks:', addError);
             return false;

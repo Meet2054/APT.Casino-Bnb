@@ -7,6 +7,7 @@ const CHAIN_IDS = {
   BINANCE_TESTNET: '0x61', // 97
   ETHEREUM_SEPOLIA: '0xaa36a7', // 11155111
   CITREA_TESTNET: '0x13fb', // 5115
+  BASECAMP_TESTNET: '0x1cbc67c35a', // 123420001114
 };
 
 export const getProvider = () => {
@@ -25,6 +26,7 @@ const getCurrentChainKey = async () => {
     if (chainId === CHAIN_IDS.BINANCE_TESTNET) return 'BINANCE_TESTNET';
     if (chainId === CHAIN_IDS.ETHEREUM_SEPOLIA) return 'ETHEREUM_SEPOLIA';
     if (chainId === CHAIN_IDS.CITREA_TESTNET) return 'CITREA_TESTNET';
+    if (chainId === CHAIN_IDS.BASECAMP_TESTNET) return 'BASECAMP_TESTNET';
   }
   // Default fallback
   return 'MANTLE_SEPOLIA';
@@ -146,10 +148,27 @@ export const switchToCitreaTestnet = async () => {
   }
 };
 
+export const switchToBasecampTestnet = async () => {
+  if (typeof window === 'undefined' || !window.ethereum) return;
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: NETWORKS.BASECAMP_TESTNET.chainId }],
+    });
+  } catch (error) {
+    if (error.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [NETWORKS.BASECAMP_TESTNET],
+      });
+    }
+  }
+};
+
 export const formatTokenAmount = (amount, decimals = 18) => {
   return ethers.formatUnits(amount, decimals);
 };
 
 export const parseTokenAmount = (amount, decimals = 18) => {
   return ethers.parseUnits(amount.toString(), decimals);
-}; 
+};

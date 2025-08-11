@@ -22,6 +22,8 @@ export const getContractConfig = (chainId) => {
 		return CONTRACTS.BINANCE_TESTNET;
 	} else if (chainId === CHAIN_IDS.CITREA_TESTNET) {
 		return CONTRACTS.CITREA_TESTNET;
+	} else if (chainId === CHAIN_IDS.BASECAMP_TESTNET) {
+		return CONTRACTS.BASECAMP_TESTNET;
 	}
 	return null;
 };
@@ -37,6 +39,8 @@ export const getRpcURLConfig = (chainId) => {
 		return RPC_URLS.BINANCE_TESTNET;
 	} else if (chainId === CHAIN_IDS.CITREA_TESTNET) {
 		return RPC_URLS.CITREA_TESTNET;
+	} else if (chainId === CHAIN_IDS.BASECAMP_TESTNET) {
+		return RPC_URLS.BASECAMP_TESTNET;
 	}
 	return null;
 };

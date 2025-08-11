@@ -57,6 +57,17 @@ const SUPPORTED_NETWORKS = {
     },
     rpcUrls: ['https://rpc.testnet.citrea.xyz'],
     blockExplorerUrls: ['https://explorer.testnet.citrea.xyz']
+  },
+  BASECAMP_TESTNET: {
+    chainId: '0x1cbc67c35a', // 123420001114 in decimal
+    chainName: 'Basecamp Testnet',
+    nativeCurrency: {
+      name: 'Basecamp',
+      symbol: 'CAMP',
+      decimals: 18
+    },
+    rpcUrls: ['https://rpc-campnetwork.xyz'],
+    blockExplorerUrls: ['https://basecamp.cloud.blockscout.com/']
   }
 };
 
@@ -99,6 +110,7 @@ const NetworkSwitcher = () => {
       const binanceChainId = SUPPORTED_NETWORKS.BINANCE_TESTNET.chainId.toLowerCase();
       const ethereumSepoliaChainId = SUPPORTED_NETWORKS.ETHEREUM_SEPOLIA.chainId.toLowerCase();
       const citreaTestnetChainId = SUPPORTED_NETWORKS.CITREA_TESTNET.chainId.toLowerCase();
+      const basecampTestnetChainId = SUPPORTED_NETWORKS.BASECAMP_TESTNET.chainId.toLowerCase();
       const currentChainId = chainId.toLowerCase();
 
       if (currentChainId === mantleChainId) {
@@ -116,6 +128,9 @@ const NetworkSwitcher = () => {
       } else if (currentChainId === citreaTestnetChainId) {
         console.log('Setting network to Citrea Testnet');
         setCurrentNetwork('CITREA_TESTNET');
+      } else if (currentChainId === basecampTestnetChainId) {
+        console.log('Setting network to Basecamp Testnet');
+        setCurrentNetwork('BASECAMP_TESTNET');
       } else {
         console.log('Unsupported network detected:', chainId);
         setCurrentNetwork(null);
@@ -289,4 +304,4 @@ const NetworkSwitcher = () => {
   );
 };
 
-export default NetworkSwitcher;
+export default NetworkSwitcher; 

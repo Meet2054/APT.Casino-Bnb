@@ -68,8 +68,10 @@ export const useToken = (address) => {
       return CONTRACTS.PHAROS_DEVNET?.token;
     } else if (chainId === CHAIN_IDS.BINANCE_TESTNET) {
       return CONTRACTS.BINANCE_TESTNET?.token;
-    } else if (chainId === CHAIN_IDS.CITREA_TESTNET) { // Citrea Testnet
+    } else if (chainId === CHAIN_IDS.CITREA_TESTNET) {
       return CONTRACTS.CITREA_TESTNET?.token;
+    } else if (chainId === CHAIN_IDS.BASECAMP_TESTNET) {
+      return CONTRACTS.BASECAMP_TESTNET?.token;
     }
     return null;
   };
@@ -215,4 +217,4 @@ export const useToken = (address) => {
     isValidAddress: isValidAddressParam,
     isValidContract: isValidContractConfig
   };
-}; 
+};

@@ -113,6 +113,26 @@ const citreaTestnet = {
   testnet: true,
 };
 
+// Define Basecamp Testnet chain
+const basecampTestnet = {
+  id: 123420001114,
+  name: "Basecamp Testnet",
+  network: "basecamp-testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Basecamp",
+    symbol: "CAMP",
+  },
+  rpcUrls: {
+    default: { http: ["https://rpc-campnetwork.xyz"] },
+    public: { http: ["https://rpc-campnetwork.xyz"] },
+  },
+  blockExplorers: {
+    default: { name: "Basecamp Testnet Explorer", url: "https://basecamp.cloud.blockscout.com/" },
+  },
+  testnet: true,
+};
+
 // Hardcoded project ID as a fallback
 const fallbackProjectId = "64df6621925fa7d0680ba510ac3788df";
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || fallbackProjectId;
@@ -121,13 +141,14 @@ const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || fallbackP
 export const config = getDefaultConfig({
   appName: 'APT Casino',
   projectId: projectId,
-  chains: [mantleSepolia, pharosDevnet, binanceTestnet, ethereumSepolia, citreaTestnet], // Add Citrea Testnet here
+  chains: [mantleSepolia, pharosDevnet, binanceTestnet, ethereumSepolia, citreaTestnet, basecampTestnet], // Add Basecamp Testnet here
   transports: {
     [mantleSepolia.id]: http(mantleSepolia.rpcUrls.default.http[0]),
     [pharosDevnet.id]: http(pharosDevnet.rpcUrls.default.http[0]),
-    [binanceTestnet.id]: http(binanceTestnet.rpcUrls.default.http[0]), // Add Binance Testnet transport
-    [ethereumSepolia.id]: http(ethereumSepolia.rpcUrls.default.http[0]), // Add Ethereum Sepolia transport
-    [citreaTestnet.id]: http(citreaTestnet.rpcUrls.default.http[0]), // Add Citrea Testnet transport
+    [binanceTestnet.id]: http(binanceTestnet.rpcUrls.default.http[0]),
+    [ethereumSepolia.id]: http(ethereumSepolia.rpcUrls.default.http[0]),
+    [citreaTestnet.id]: http(citreaTestnet.rpcUrls.default.http[0]),
+    [basecampTestnet.id]: http(basecampTestnet.rpcUrls.default.http[0]), // Add Basecamp Testnet transport
   },
   metadata: {
     name: 'APT Casino',
@@ -201,7 +222,7 @@ export default function Providers({ children }) {
     const handleChainChange = (chainId) => {
       console.log('Chain changed:', chainId);
       // Check if the new chain is supported
-      const supportedChainIds = [mantleSepolia.id, pharosDevnet.id, binanceTestnet.id, ethereumSepolia.id, citreaTestnet.id];
+      const supportedChainIds = [mantleSepolia.id, pharosDevnet.id, binanceTestnet.id, ethereumSepolia.id, citreaTestnet.id, basecampTestnet.id];
       if (!supportedChainIds.includes(Number(chainId))) {
         setConnectionError(true);
       } else {

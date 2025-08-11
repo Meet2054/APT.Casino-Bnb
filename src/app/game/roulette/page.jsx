@@ -1868,7 +1868,7 @@ export default function GameRoulette() {
         const chainId = await window.ethereum.request({ method: "eth_chainId" });
         // Support Mantle Sepolia (0x138b) and Local Hardhat (0x7a69)
         // Comment out Pharos Devnet (0xc352) - using Mantle Sepolia instead
-        setCorrectNetwork(chainId === "0x138b" || chainId === "0x13fb" ||  chainId === "0x61" || chainId === "0x7a69" || chainId === "0xaa36a7");
+        setCorrectNetwork(chainId === "0x138b" || chainId === "0x61" || chainId === "0x7a69" || chainId === "0xaa36a7" || chainId === "0x13fb" || chainId === '0x1cbc67c35a');
       } catch (error) {
         console.error("Error checking network:", error);
         setCorrectNetwork(false);

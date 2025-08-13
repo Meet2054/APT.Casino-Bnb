@@ -74,5 +74,6 @@
     "@types/node": "22.15.15",
     "tailwind-scrollbar": "^3.0.4",
     "typescript": "5.8.3"
-  }
+  },
+  "_comment": "Origin SDK integration uses mock implementation. Replace with actual @origin-sdk/core and @origin-sdk/react when available."
 }

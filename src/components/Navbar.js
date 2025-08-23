@@ -150,6 +150,11 @@ export default function Navbar() {
       path: "/bank",
       classes: "text-hover-gradient-bank",
     },
+    {
+      name: "Prediction",
+      path: "/prediction",
+      classes: "text-hover-gradient-prediction",
+    },
   ];
 
   const handleProfileClick = () => {

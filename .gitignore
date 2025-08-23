@@ -33,10 +33,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
-.env.development
-.env.test
-.env.production
 
 # vercel
 .vercel
@@ -47,9 +43,12 @@ next-env.d.ts
 
 # IDE
 .idea/
-.vscode/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw? 
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
